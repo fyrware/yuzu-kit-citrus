@@ -1,0 +1,22 @@
+{
+  "name": "yuzu-kit-citrus",
+  "version": "1.0.0",
+  "description": "Default Component Kit",
+  "main": "pkg/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fyrware/yuzu-kit-citrus.git"
+  },
+  "author": "Nick Dugger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fyrware/yuzu-kit-citrus/issues"
+  },
+  "homepage": "https://github.com/fyrware/yuzu-kit-citrus#readme",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
+}

@@ -1,126 +1,99 @@
 import { Component } from 'yuzu'
 
-import { Citrus } from '../themes/Citrus'
+import { CitrusTheme } from '../themes/CitrusTheme'
 
 export class Button extends Component implements Button.Options {
 
-    public color = Citrus.Colors.Primary
-    public shape = Button.Shape.Rounded
-    public size = Citrus.Size.Medium
-    public variant = Button.Variant.Contained
+    public color = CitrusTheme.Colors.Primary
+    public line = CitrusTheme.Lines.Medium
+    public padding = CitrusTheme.Paddings.Medium
+    public radius = CitrusTheme.Radii.Small
+    public shape = Button.Shapes.Round
+    public variant = Button.Variants.Contained
 
-    public render(): Component.Template {
-        const attributes = {
-            color: this.color,
-            shape: this.shape,
-            size: this.size,
-            variant: this.variant
-        }
-
+    protected render(): Component.Template {
         return [
-            <HTMLButtonElement attributes={ attributes }>
+            <HTMLButtonElement>
                 <HTMLSlotElement/>
             </HTMLButtonElement>
         ]
     }
 
-    public theme(): Component.StyleSheet {
-        const citrus = this.getContext(Citrus)
+    protected theme(): Component.StyleSheet {
+        const theme = this.getContext(CitrusTheme)
 
-        return `
-            :host {
-                display: contents;
-            }
+        return Component.createStyleSheet(this, css => {
+            const color = theme.colors[ this.color ]
+            const line = theme.lines[ this.line ]
+            const padding = theme.paddings[ this.padding ]
+            const radius = theme.radii[ this.radius ]
 
-            .${ HTMLButtonElement.name } {
-                background-color: transparent;
-                border: none;
-                color: inherit;
-                font: inherit;
-            }
+            css.define('color', color)
 
-            [color = ${ Citrus.Palette.Primary }] {
-                color: ${ citrus.palette[ Citrus.Palette.Primary ] };
-            }
+            css.selectHost(css => {
+                css.write(`
+                    display: contents
+                `)
+            })
 
-            [color = ${ Citrus.Palette.Secondary }] {
-                color: ${ citrus.palette[ Citrus.Palette.Secondary ] };
-            }
+            css.selectClass(HTMLButtonElement, css => {
+                css.write(`
+                    background-color: transparent;
+                    border: none;
+                    border-radius: 0;
+                    color: ${ css.var('color') };
+                    font: inherit;
+                    padding: ${ padding / 2 }rem ${ padding }rem;
+                `)
 
-            [color = ${ Citrus.Palette.Tertiary }] {
-                color: ${ citrus.palette[ Citrus.Palette.Tertiary ] };
-            }
+                if (this.shape === Button.Shapes.Disc) css.write(`
+                    border-radius: 100%;
+                `)
+                else if (this.shape === Button.Shapes.Pill) css.write(`
+                    border-radius: 100vh;
+                `)
+                else if (this.shape === Button.Shapes.Round) css.write(`
+                    border-radius: ${ radius }px;
+                `)
 
-            [color = ${ Citrus.Palette.Quaternary }] {
-                color: ${ citrus.palette[ Citrus.Palette.Quaternary ] };
-            }
-            
-            [shape = ${ Button.Shape.Circle }] {
-                border-radius: 100%;
-            }
+                if (this.variant === Button.Variants.Contained) css.write(`
+                    background-color: ${ css.var('color') };
+                `)
+                else if (this.variant === Button.Variants.Outlined) css.write(`
+                    border: ${ line }px solid ${ css.var('color') };
+                `)
 
-            [shape = ${ Button.Shape.Pill }] {
-                border-radius: 100vh;
-            }
-
-            [shape = ${ Button.Shape.Rounded }] {
-                border-radius: 4px;
-            }
-
-            [shape = ${ Button.Shape.Sharp }] {
-                border-radius: 0;
-            }
-
-            [size = ${ Citrus.Size.Small }] {
-                font-size: 1em;
-                padding: 0.5em 1.25em;
-            }
-
-            [size = ${ Citrus.Size.Medium }] {
-                font-size: 1.25em;
-                padding: 0.75em 1.5em;
-            }
-
-            [size = ${ Citrus.Size.Large }] {
-                font-size: 1.5em;
-                padding: 1em 1.75em;
-            }
-
-            [variant = ${ Button.Variant.Contained }] {
-                background-color: currentcolor;
-                color: white;
-            }
-
-            [variant = ${ Button.Variant.Inverted }] {
-                color: currentcolor;
-            }
-
-            [variant = ${ Button.Variant.Outlined }] {
-                box-shadow: inset 0 0 0 3px currentcolor;
-            }
-        `
+                css.selectHover(css => {
+                    css.write(`
+                        opacity: 0.8;
+                    `)
+                })
+            })
+        })
     }
 }
 
 export namespace Button {
 
+    export enum Shapes {
+        Disc = 'disc',
+        Pill = 'pill',
+        Round = 'round',
+        Sharp = 'sharp'
+    }
+
+    export enum Variants {
+        Contained = 'contained',
+        Inverted = 'inverted',
+        Outlined = 'outlined'
+    }
+
     export interface Options {
-        color: Citrus.Palette
-        shape: Shape
-        size: Citrus.Size
-        variant: Variant
-    }
-
-    export enum Shape {
-        Circle,
-        Pill,
-        Rounded,
-        Sharp
-    }
-
-    export enum Variant {
-        Contained,
-        Inverted,
-        Outlined,
+        color: CitrusTheme.Colors
+        line: CitrusTheme.Lines
+        padding: CitrusTheme.Paddings
+        radius: CitrusTheme.Radii
+        shape: Shapes
+        variant: Variants
     }
 }

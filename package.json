@@ -1,7 +1,7 @@
 {
-  "name": "yuzu-kit-citrus",
+  "name": "yuzu-citrus",
   "version": "1.0.0",
-  "description": "Default Component Kit",
+  "description": "Original Yuzu Component Kit",
   "main": "pkg/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

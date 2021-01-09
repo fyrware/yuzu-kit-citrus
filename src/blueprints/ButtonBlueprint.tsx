@@ -1,177 +1,128 @@
-import { Component } from 'yuzu'
+import { Blueprint, Component } from 'yuzu'
 
 import { Button } from '../components/Button'
+import { Icon } from '../components/Icon'
+import { Swatch } from '../components/Swatch'
 
-import { Citrus } from '../themes/Citrus'
+import { CitrusTheme } from '../themes/CitrusTheme'
 
-class Blueprint<Pattern extends Component = Component> extends Component {
+export class ButtonBlueprint extends Blueprint.Plan(Button, 'Intentionally clickable element') {
 
-}
-
-namespace Blueprint {
-
-    export interface Parameters {}
-}
-
-export class ButtonBlueprint extends Blueprint {
-    
-    public pattern = Button
-
-    protected configure(): Blueprint.Parameters {
-        const citrus = this.getContext(Citrus)
+    protected configure() {
+        const theme = this.getContext(CitrusTheme)
 
         return {
             color: {
                 heading: 'Button Color',
-                default: Citrus.Colors.Primary,
+                variant: Blueprint.Parameters.Variants.Color,
+                default: CitrusTheme.Colors.Primary,
                 options: [
                     {
                         label: 'Primary', 
-                        glyph: citrus.colors[ Citrus.Colors.Primary ],
-                        value: Citrus.Colors.Primary
+                        glyph: [
+                            <Swatch value={ theme.colors.primary }/>
+                        ],
+                        value: CitrusTheme.Colors.Primary
                     },
                     {
                         label: 'Secondary',
-                        glyph: citrus.colors[ Citrus.Colors.Secondary ],
-                        value: Citrus.Colors.Secondary
+                        glyph: [
+                            <Swatch value={ theme.colors.secondary }/>
+                        ],
+                        value: CitrusTheme.Colors.Secondary
                     },
                     {
                         label: 'Tertiary',
-                        glyph: citrus.colors[ Citrus.Colors.Tertiary ],
-                        value: Citrus.Colors.Tertiary
+                        glyph: [
+                            <Swatch value={ theme.colors.tertiary }/>
+                        ],
+                        value: CitrusTheme.Colors.Tertiary
                     },
                     {
                         label: 'Quaternary',
-                        glyph: citrus.colors[ Citrus.Colors.Quaternary ],
-                        value: Citrus.Colors.Quaternary
+                        glyph: [
+                            <Swatch value={ theme.colors.quaternary }/>
+                        ],
+                        value: CitrusTheme.Colors.Quaternary
                     },
                     {
                         label: 'Success',
-                        glyph: citrus.colors[ Citrus.Colors.Success ],
-                        value: Citrus.Colors.Success
+                        glyph: [
+                            <Swatch value={ theme.colors.success }/>
+                        ],
+                        value: CitrusTheme.Colors.Success
                     },
                     {
                         label: 'Info',
-                        glyph: citrus.colors[ Citrus.Colors.Information ],
-                        value: Citrus.Colors.Information
+                        glyph: [
+                            <Swatch value={ theme.colors.information }/>
+                        ],
+                        value: CitrusTheme.Colors.Information
                     },
                     {
                         label: 'Warn',
-                        glyph: citrus.colors[ Citrus.Colors.Warning ],
-                        value: Citrus.Colors.Warning
+                        glyph: [
+                            <Swatch value={ theme.colors.warning }/>
+                        ],
+                        value: CitrusTheme.Colors.Warning
                     },
                     {
                         label: 'Error',
-                        glyph: citrus.colors[ Citrus.Colors.Error ],
-                        value: Citrus.Colors.Error
+                        glyph: [
+                            <Swatch value={ theme.colors.error }/>
+                        ],
+                        value: CitrusTheme.Colors.Error
+                    }
+                ]
+            },
+            shape: {
+                heading: 'Button Shape',
+                variant: Blueprint.Parameters.Variants.Text,
+                default: Button.Shapes.Round,
+                options: [
+                    { 
+                        label: 'Disc', 
+                        glyph: [],
+                        value: Button.Shapes.Disc
+                    },
+                    { 
+                        label: 'Pill', 
+                        glyph: [],
+                        value: Button.Shapes.Pill
+                    },
+                    { 
+                        label: 'Round', 
+                        glyph: [],
+                        value: Button.Shapes.Round
+                    },
+                    { 
+                        label: 'Sharp', 
+                        glyph: [],
+                        value: Button.Shapes.Sharp
+                    }
+                ]
+            },
+            variant: {
+                label: 'Button Variant',
+                default: Button.Variants.Contained,
+                options: [
+                    { 
+                        label: 'Contained', 
+                        glyph: [],
+                        value: Button.Variants.Contained
+                    },
+                    { 
+                        label: 'Inverted', 
+                        glyph: [],
+                        value: Button.Variants.Inverted
+                    },
+                    { 
+                        label: 'Outlined', 
+                        glyph: [],
+                        value: Button.Variants.Outlined
                     }
                 ]
             }
-        }
-    }
-}
-
-export const ButtonBlueprint2 = {
-    metadata: {
-        description: 'Element which is intentionally clickable',
-        label: 'Button'
-    },
-    options: {
-        color: {
-            label: 'Button Color',
-            default: Citrus.Colors.Primary,
-            options: [
-                {
-                    label: 'Primary',
-                    value: Citrus.Colors.Primary
-                },
-                {
-                    label: 'Secondary',
-                    value: Citrus.Colors.Secondary
-                },
-                {
-                    label: 'Tertiary',
-                    value: Citrus.Colors.Tertiary
-                },
-                {
-                    label: 'Quaternary',
-                    value: Citrus.Colors.Quaternary
-                },
-                {
-                    label: 'Success',
-                    value: Citrus.Colors.Success
-                },
-                {
-                    label: 'Info',
-                    value: Citrus.Colors.Information
-                },
-                {
-                    label: 'Warn',
-                    value: Citrus.Colors.Warning
-                },
-                {
-                    label: 'Error',
-                    value: Citrus.Colors.Error
-                }
-            ]
-        },
-        shape: {
-            label: 'Button Shape',
-            default: Button.Shape.Rounded,
-            options: [
-                { 
-                    label: 'Circle', 
-                    value: Button.Shape.Circle
-                },
-                { 
-                    label: 'Pill', 
-                    value: Button.Shape.Pill
-                },
-                { 
-                    label: 'Rounded', 
-                    value: Button.Shape.Rounded
-                },
-                { 
-                    label: 'Sharp', 
-                    value: Button.Shape.Sharp
-                }
-            ]
-        },
-        size: {
-            label: 'Button Size',
-            default: Citrus.Size.Medium,
-            options: [
-                {
-                    label: 'Small',
-                    value: Citrus.Size.Small
-                },
-                {
-                    label: 'Medium',
-                    value: Citrus.Size.Medium
-                },
-                {
-                    label: 'Large',
-                    value: Citrus.Size.Large
-                }
-            ]
-        },
-        variant: {
-            label: 'Button Variant',
-            default: Button.Variant.Contained,
-            options: [
-                { 
-                    label: 'Contained', 
-                    value: Button.Variant.Contained
-                },
-                { 
-                    label: 'Inverted', 
-                    value: Button.Variant.Inverted
-                },
-                { 
-                    label: 'Outlined', 
-                    value: Button.Variant.Outlined
-                }
-            ]
         }
     }
 }
